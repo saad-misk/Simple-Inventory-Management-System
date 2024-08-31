@@ -47,7 +47,7 @@ namespace SimpleInventoryManagementSystem
             st.Append($"Product: {Name}, Price per unit: ${Price}, Quantity: {Quantity}");
             if (Description == null)
             {
-                st.Append("\n\tDescription: no inforamtion!");
+                st.Append("\n\tDescription: no info");
             }
             else
             {
