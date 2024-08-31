@@ -77,9 +77,15 @@ namespace SimpleInventoryManagementSystem
 
         }
 
-        public void SearchProduct()
+        public void SearchProduct(string name)
         {
-
+            var product = products.FirstOrDefault(p => p.Name.Equals(name));
+            if(product == null)
+            {
+                Console.WriteLine("Product Not Found");
+                return;
+            }
+            Console.WriteLine(product);
         }
 
         
