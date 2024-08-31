@@ -23,14 +23,14 @@ namespace SimpleInventoryManagementSystem
         public override string ToString()
         {
             StringBuilder st = new StringBuilder();
-            st.Append($"Name:{Name}, Price: ${Price}, Quantity:{Quantity}");
+            st.Append($"Product: {Name}, Price per unit: ${Price}, Quantity: {Quantity}");
             if (Description == null)
             {
-                st.Append("\nDescription: no inforamtion!");
+                st.Append("\n\tDescription: no inforamtion!");
             }
             else
             {
-                st.Append($"\nDescription: {Description}");
+                st.Append($"\n\tDescription: {Description}");
             }
 
             return st.ToString();
