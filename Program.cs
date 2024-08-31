@@ -18,6 +18,9 @@ namespace SimpleInventoryManagementSystem
             inventory.AddProduct(new Product("boards", 10, 100));
 
             inventory.DisplayProducts();
+
+            inventory.EditProduct("pencils");
+            inventory.DisplayProducts();
         }
 
     }
