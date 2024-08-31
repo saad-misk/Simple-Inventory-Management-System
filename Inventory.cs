@@ -63,8 +63,17 @@ namespace SimpleInventoryManagementSystem
 
         }
 
-        public void DeleteProduct()
+        public void DeleteProduct(string name)
         {
+
+            var product = products.FirstOrDefault(p => p.Name.Equals(name));
+            if (product == null)
+            {
+                Console.WriteLine("Product Not Found!!!");
+                return;
+            }
+            products.Remove(product);
+            Console.WriteLine("Product Deleted.");
 
         }
 
