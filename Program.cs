@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleInventoryManagementSystem
+﻿namespace SimpleInventoryManagementSystem
 {
     public class Program
     {
         public static async Task Main(string[] args)
         {
-            string connectionString = "Server=DESKTOP-PEKH0BU;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
+            string connectionString = "Server=localhost;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
             var dataBase = new DataBase(connectionString);
             var inventory = new Inventory(dataBase);
 

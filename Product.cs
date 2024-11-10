@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.Text;
 
 namespace SimpleInventoryManagementSystem
 {
@@ -42,6 +41,5 @@ namespace SimpleInventoryManagementSystem
 
             return st.ToString();
         }
-
     }
 }
