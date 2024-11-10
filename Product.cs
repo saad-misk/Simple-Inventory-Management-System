@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Text;
 
 namespace SimpleInventoryManagementSystem
 {
     public class Product
     {
+        [BsonId]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }

@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SimpleInventoryManagementSystem.MongoDB;
 
 namespace SimpleInventoryManagementSystem
 {
     public class Inventory
     {
+        private MongoDBDatabase _database;
 
-        List<Product> products = new List<Product>();
-        
-        public void AddProduct(Product product)
+        public Inventory()
         {
-            products.Add(product);
+            _database = new MongoDBDatabase();
         }
 
-        public void DisplayProducts()
+        public async Task AddProductAsync(Product product)
         {
-            if (products.Count == 0) 
+            await _database.AddProductAsync(product);
+        }
+
+        public async Task DisplayProductsAsync()
+        {
+            var products = await _database.GetProductsAsync();
+            if (products.Count == 0)
             {
-                Console.WriteLine("There are no products!!");  
+                Console.WriteLine("There are no products!");
                 return;
             }
+
             foreach (Product product in products)
             {
                 Console.WriteLine(product);
@@ -30,10 +32,9 @@ namespace SimpleInventoryManagementSystem
             }
         }
 
-        public void EditProduct(string name)
+        public async Task EditProductAsync(string name)
         {
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
-
+            var product = await _database.SearchProductAsync(name);
             if (product == null)
             {
                 Console.WriteLine("Product Not Found!");
@@ -61,33 +62,32 @@ namespace SimpleInventoryManagementSystem
                 product.Quantity = newQuantity;
             }
 
+            await _database.UpdateProductAsync(name, product);
         }
 
-        public void DeleteProduct(string name)
+        public async Task DeleteProductAsync(string name)
         {
-
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
+            var product = await _database.SearchProductAsync(name);
             if (product == null)
             {
-                Console.WriteLine("Product Not Found!!!");
+                Console.WriteLine("Product Not Found!");
                 return;
             }
-            products.Remove(product);
-            Console.WriteLine("Product Deleted.");
 
+            await _database.DeleteProductAsync(name);
+            Console.WriteLine("Product Deleted.");
         }
 
-        public void SearchProduct(string name)
+        public async Task SearchProductAsync(string name)
         {
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
-            if(product == null)
+            var product = await _database.SearchProductAsync(name);
+            if (product == null)
             {
                 Console.WriteLine("Product Not Found");
                 return;
             }
+
             Console.WriteLine(product);
         }
-
-        
     }
 }
