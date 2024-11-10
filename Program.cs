@@ -8,11 +8,11 @@ namespace SimpleInventoryManagementSystem
 {
     public class Program
     {
-
-
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var inventory = new Inventory();
+            string connectionString = "Server=DESKTOP-PEKH0BU;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
+            var dataBase = new DataBase(connectionString);
+            var inventory = new Inventory(dataBase);
 
             PrintHelloMessage();
 
@@ -24,33 +24,30 @@ namespace SimpleInventoryManagementSystem
                 switch (choice)
                 {
                     case "1":
-
-
                         var product = ReadProduct();
-                        inventory.AddProduct(product);
-                        Console.WriteLine("Product added.");
+                        await inventory.AddProduct(product);
                         break;
 
                     case "2":
-                        inventory.DisplayProducts();
+                        await inventory.DisplayProducts();
                         break;
 
                     case "3":
                         Console.Write("Enter product name to edit: ");
                         var editName = Console.ReadLine() ?? "";
-                        inventory.EditProduct(editName);
+                        await inventory.EditProduct(editName);
                         break;
 
                     case "4":
                         Console.Write("Enter product name to delete: ");
                         var deleteName = Console.ReadLine() ?? "";
-                        inventory.DeleteProduct(deleteName);
+                        await inventory.DeleteProduct(deleteName);
                         break;
 
                     case "5":
                         Console.Write("Enter product name to search: ");
                         var searchName = Console.ReadLine() ?? "";
-                        inventory.SearchProduct(searchName);
+                        await inventory.SearchProduct(searchName);
                         break;
 
                     case "6":
@@ -63,12 +60,6 @@ namespace SimpleInventoryManagementSystem
                 Console.WriteLine("\n************************************************************\n");
             }
         }
-
-
-
-
-
-
 
         static void PrintHelloMessage()
         {

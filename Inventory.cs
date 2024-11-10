@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleInventoryManagementSystem
 {
     public class Inventory
     {
+        private readonly DataBase _dataBase;
 
-        List<Product> products = new List<Product>();
-        
-        public void AddProduct(Product product)
+        public Inventory(DataBase dataBase)
         {
-            products.Add(product);
+            _dataBase = dataBase;
         }
 
-        public void DisplayProducts()
+        public async Task AddProduct(Product product)
         {
-            if (products.Count == 0) 
+            var newId = await _dataBase.AddProductAsync(product);
+            Console.WriteLine($"Product added with ID: {newId}");
+        }
+
+        public async Task DisplayProducts()
+        {
+            var products = await _dataBase.GetAllProductsAsync();
+
+            if (products.Count == 0)
             {
-                Console.WriteLine("There are no products!!");  
+                Console.WriteLine("There are no products!!");
                 return;
             }
+
             foreach (Product product in products)
             {
                 Console.WriteLine(product);
@@ -30,9 +36,9 @@ namespace SimpleInventoryManagementSystem
             }
         }
 
-        public void EditProduct(string name)
+        public async Task EditProduct(string name)
         {
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
+            var product = await _dataBase.GetProductByNameAsync(name);
 
             if (product == null)
             {
@@ -49,9 +55,9 @@ namespace SimpleInventoryManagementSystem
 
             Console.Write("Enter new price (leave blank to keep current): ");
             var priceInput = Console.ReadLine();
-            if (decimal.TryParse(priceInput, out var newPrice))
+            if (double.TryParse(priceInput, out var newPrice))
             {
-                product.Price = (double)newPrice;
+                product.Price = newPrice;
             }
 
             Console.Write("Enter new quantity (leave blank to keep current): ");
@@ -61,33 +67,25 @@ namespace SimpleInventoryManagementSystem
                 product.Quantity = newQuantity;
             }
 
+            bool success = await _dataBase.UpdateProductAsync(name, product);
+            Console.WriteLine(success ? "Product updated successfully." : "Product update failed.");
         }
 
-        public void DeleteProduct(string name)
+        public async Task DeleteProduct(string name)
         {
+            bool success = await _dataBase.DeleteProductAsync(name);
+            Console.WriteLine(success ? "Product Deleted." : "Product Not Found!!!");
+        }
 
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
+        public async Task SearchProduct(string name)
+        {
+            var product = await _dataBase.GetProductByNameAsync(name);
             if (product == null)
-            {
-                Console.WriteLine("Product Not Found!!!");
-                return;
-            }
-            products.Remove(product);
-            Console.WriteLine("Product Deleted.");
-
-        }
-
-        public void SearchProduct(string name)
-        {
-            var product = products.FirstOrDefault(p => p.Name.Equals(name));
-            if(product == null)
             {
                 Console.WriteLine("Product Not Found");
                 return;
             }
             Console.WriteLine(product);
         }
-
-        
     }
 }

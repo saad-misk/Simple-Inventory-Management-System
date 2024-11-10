@@ -1,44 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleInventoryManagementSystem
 {
     public class Product
     {
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-        private string? description;
-        public string? Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
-        private double price;
-        public double Price
-        {
-            get { return price; }
-            set { price = value; }
-        }
-        private int quantity;
-        public int Quantity
-        {
-            get { return quantity; }
-            set { quantity = value; }
-        }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
 
-        public Product(string name, double price, int quantity)
+        public Product() { }
+        public Product(string Name, double Price, int Quantity)
         {
-            Name = name;
-            Price = price;
-            Quantity = quantity;
+            Id = Guid.NewGuid();
+            this.Name = Name;
+            this.Price = Price;
+            this.Quantity = Quantity;
+        }
+        public Product(Guid Id, string Name, double Price, int Quantity)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Price = Price;
+            this.Quantity = Quantity;
         }
 
         public override string ToString()
